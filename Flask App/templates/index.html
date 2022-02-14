@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo App</title>
+    <link href="https://unpkg.com/tailwindcss@0.3.0/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-teal-lightest">
+   <!-- component -->
+    <div class="h-100 w-full flex items-center justify-center font-sans">
+        <div class="bg-white rounded shadow p-6 m-4 w-full lg:w-3/4 lg:max-w-lg">
+            <div class="mb-4">
+                <h1 class="text-grey-darkest">Todo List</h1>
+                <form action="/add_task" method='POST'> 
+                    <div class="flex mt-4">
+                        <input name="label" class="shadow appearance-none border rounded w-full py-2 px-3 mr-4 text-grey-darker" placeholder="Add Todo">
+                        <button class="flex-no-shrink p-2 border-2 rounded text-teal border-teal hover:text-white hover:bg-teal">Add</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                {% for task in tasks %}
+                    <div class="flex mb-4 items-center">
+                        <p class="w-full {{ 'line-through text-green' if task.done else 'text-grey-darkest' }}">{{task.label}}</p>
+                        <form action="/update_task/{{task.id}}" method='POST'> 
+                            <button
+                                class="flex-no-shrink p-2 ml-4 mr-2 border-2 rounded hover:text-white {{'text-green border-green hover:bg-green' if not task.done else 'text-grey border-grey hover:bg-grey'}}">{{
+                                    'Done' if not task.done else 'Not Done'    
+                                }}</button>
+                        </form>
+
+                        <form action="/delete_task/{{task.id}}" method='POST'> 
+                            <button class="flex-no-shrink p-2 ml-2 border-2 rounded text-red border-red hover:text-white hover:bg-red">Remove</button>
+                        </form>
+
+                    </div>
+                {% endfor %}
+               
+            </div>
+        </div>
+    </div>
+</body>
+</html>
